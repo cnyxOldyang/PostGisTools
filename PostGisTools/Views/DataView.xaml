@@ -1,0 +1,97 @@
+<UserControl x:Class="PostGisTools.Views.DataView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:core="clr-namespace:PostGisTools.Core"
+             xmlns:res="clr-namespace:PostGisTools.Resources"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+        <core:InverseBooleanConverter x:Key="InverseBoolConverter"/>
+    </UserControl.Resources>
+
+    <Grid Background="#1E1E1E">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Toolbar -->
+        <Border Grid.Row="0" Background="#252526" Padding="10" BorderBrush="#3E3E42" BorderThickness="0,0,0,1">
+            <WrapPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="0,0,15,0">
+                    <TextBlock Text="{x:Static res:Strings.DataViewLabelSchema}" Foreground="#CCCCCC" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <ComboBox Width="150" 
+                              ItemsSource="{Binding Schemas}" 
+                              SelectedItem="{Binding SelectedSchema}"
+                              IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,15,0">
+                    <TextBlock Text="{x:Static res:Strings.DataViewLabelTable}" Foreground="#CCCCCC" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <ComboBox Width="150" 
+                              ItemsSource="{Binding Tables}" 
+                              SelectedItem="{Binding SelectedTable}"
+                              IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"/>
+                </StackPanel>
+
+                <Button Content="{x:Static res:Strings.DataViewButtonLoad}" Command="{Binding LoadDataCommand}" Width="80" Margin="0,0,10,0" Padding="5,2"
+                        IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"/>
+                
+                <Button Content="{x:Static res:Strings.DataViewButtonAdd}" Command="{Binding AddRowCommand}" Width="80" Margin="0,0,10,0" Padding="5,2"
+                        IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"/>
+
+                <Button Content="{x:Static res:Strings.DataViewButtonDelete}" Command="{Binding DeleteRowCommand}" Width="90" Margin="0,0,10,0" Padding="5,2"
+                        IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"/>
+
+                <Button Content="{x:Static res:Strings.DataViewButtonSave}" Command="{Binding SaveChangesCommand}" Width="100" Margin="0,0,10,0" Padding="5,2" Background="#007ACC" Foreground="White" BorderThickness="0"
+                        IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"/>
+                
+                <!-- Refresh Schema List -->
+                <Button Content="↻" Command="{Binding LoadSchemasCommand}" Width="30" Margin="0,0,10,0" ToolTip="{x:Static res:Strings.DataViewRefreshSchemas}"
+                        IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"/>
+            </WrapPanel>
+        </Border>
+
+        <!-- Data Grid -->
+        <DataGrid Grid.Row="1" 
+                  ItemsSource="{Binding TableData}" 
+                  SelectedItem="{Binding SelectedRow}"
+                  AutoGenerateColumns="True"
+                  CanUserAddRows="True"
+                  CanUserDeleteRows="True"
+                  Background="#1E1E1E"
+                  RowBackground="#252526"
+                  AlternatingRowBackground="#2D2D30"
+                  Foreground="#CCCCCC"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  HorizontalGridLinesBrush="#3E3E42"
+                  VerticalGridLinesBrush="#3E3E42"
+                  BorderThickness="0"
+                  Margin="0,5">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#333333"/>
+                    <Setter Property="Foreground" Value="#EEEEEE"/>
+                    <Setter Property="Padding" Value="5"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                    <Setter Property="BorderBrush" Value="#3E3E42"/>
+                </Style>
+            </DataGrid.Resources>
+        </DataGrid>
+
+        <!-- Overlay for Loading -->
+        <Grid Grid.Row="1" Background="#80000000" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisConverter}}">
+            <TextBlock Text="{x:Static res:Strings.DataViewProcessing}" Foreground="White" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+
+        <!-- Status Bar -->
+        <Border Grid.Row="2" Background="#007ACC" Padding="5">
+            <TextBlock Text="{Binding StatusMessage}" Foreground="White"/>
+        </Border>
+    </Grid>
+</UserControl>

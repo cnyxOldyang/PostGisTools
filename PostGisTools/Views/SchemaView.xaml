@@ -1,0 +1,292 @@
+<UserControl x:Class="PostGisTools.Views.SchemaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:PostGisTools.ViewModels"
+             xmlns:models="clr-namespace:PostGisTools.Models"
+             xmlns:res="clr-namespace:PostGisTools.Resources"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="900">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        
+        <!-- Custom TreeView Styles -->
+        <Style TargetType="TreeViewItem">
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="5,2"/>
+            <Setter Property="IsExpanded" Value="False"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#3E3E42"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- DataGrid Styles -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#1E1E1E"/>
+            <Setter Property="RowBackground" Value="#252526"/>
+            <Setter Property="AlternatingRowBackground" Value="#2D2D30"/>
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+            <Setter Property="BorderBrush" Value="#3F3F46"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#3F3F46"/>
+            <Setter Property="VerticalGridLinesBrush" Value="#3F3F46"/>
+            <Setter Property="RowHeaderWidth" Value="0"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#3E3E42"/>
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="BorderBrush" Value="#1E1E1E"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="#1E1E1E">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Background="#252526" Padding="15,10" BorderBrush="#3F3F46" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{x:Static res:Strings.SchemaViewHeader}" Foreground="#007ACC" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+                    <TextBlock Text=" | " Foreground="#555" Margin="10,0"/>
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="#A0A0A0" VerticalAlignment="Center" FontStyle="Italic"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Command="{Binding SaveFieldConfigCommand}" 
+                            Content="{x:Static res:Strings.SchemaViewSaveConfig}" 
+                            Background="#3A7E5A" Foreground="White" BorderThickness="0" Padding="12,5"
+                            FontWeight="SemiBold" Cursor="Hand" Margin="0,0,10,0"/>
+
+                    <Button Command="{Binding RefreshCommand}" 
+                            Content="{x:Static res:Strings.SchemaViewRefresh}" 
+                            Background="#007ACC" Foreground="White" BorderThickness="0" Padding="15,5"
+                            FontWeight="SemiBold" Cursor="Hand">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="3"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Schema Panel -->
+            <Grid Grid.Column="0" Background="#252526">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" Margin="10,10,10,5">
+                    <TextBlock Text="架构" Foreground="#E0E0E0" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBox Width="140" Text="{Binding NewSchemaName, UpdateSourceTrigger=PropertyChanged}"
+                             Background="#1E1E1E" Foreground="#E0E0E0" BorderBrush="#3F3F46"
+                             Padding="4,2" VerticalContentAlignment="Center" ToolTip="新架构名"/>
+                    <Button Command="{Binding AddSchemaCommand}" Content="添加"
+                            Background="#3A7E5A" Foreground="White" BorderThickness="0" Padding="10,2"
+                            FontWeight="SemiBold" Cursor="Hand" Margin="8,0,0,0"/>
+                </StackPanel>
+
+                <TreeView Grid.Row="1" ItemsSource="{Binding Schemas}"
+                          SelectedItemChanged="TreeView_SelectedItemChanged"
+                          Background="#252526" BorderThickness="0" Padding="10">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type models:SchemaItem}" ItemsSource="{Binding Tables}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📁" Margin="0,0,5,0" Foreground="#E8B339"/>
+                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                    <TreeView.Resources>
+                        <HierarchicalDataTemplate DataType="{x:Type models:TableItem}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📄" Margin="0,0,5,0" Foreground="#569CD6"/>
+                                <TextBlock Text="{Binding Name}"/>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.Resources>
+                </TreeView>
+            </Grid>
+
+            <!-- Splitter -->
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" Background="#3F3F46"/>
+
+            <!-- Config Panel -->
+            <Grid Grid.Column="2" Background="#1E1E1E">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Visibility="{Binding IsTableSelected, Converter={StaticResource BoolToVis}}" Margin="20">
+                    <TextBlock Text="{Binding SelectedTable.Name}" FontSize="24" Foreground="#E0E0E0" FontWeight="Light"/>
+                    <TextBlock Text="{Binding SelectedTable.Schema, StringFormat={x:Static res:Strings.SchemaViewSelectedSchemaFormat}}" Foreground="#808080" Margin="0,5,0,0"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                        <TextBlock Text="{x:Static res:Strings.SchemaViewAddFieldLabel}" Foreground="#CCCCCC" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBox Width="160" Text="{Binding NewFieldName, UpdateSourceTrigger=PropertyChanged}"
+                                 Background="#1E1E1E" Foreground="#E0E0E0" BorderBrush="#3F3F46"
+                                 Padding="4,2" VerticalContentAlignment="Center"
+                                 ToolTip="{x:Static res:Strings.SchemaViewAddFieldNamePlaceholder}"/>
+                        <TextBlock Text="{x:Static res:Strings.SchemaViewAddFieldTypeLabel}" Foreground="#CCCCCC" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                        <ComboBox Width="120" ItemsSource="{Binding FieldTypes}" SelectedItem="{Binding NewFieldType}"
+                                  Background="#1E1E1E" Foreground="#1E1E1E" BorderBrush="#3F3F46">
+                            <ComboBox.Resources>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter Property="Background" Value="#1E1E1E"/>
+                                    <Setter Property="Foreground" Value="#E0E0E0"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#3E3E42"/>
+                                            <Setter Property="Foreground" Value="#1E1E1E"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#333337"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Resources>
+                        </ComboBox>
+                        <TextBlock Text="{x:Static res:Strings.SchemaViewAddFieldLengthLabel}" Foreground="#CCCCCC" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                        <TextBox Width="80" Text="{Binding NewFieldLength, UpdateSourceTrigger=PropertyChanged}"
+                                 Background="#1E1E1E" Foreground="#E0E0E0" BorderBrush="#3F3F46"
+                                 Padding="4,2" VerticalContentAlignment="Center"
+                                 ToolTip="{x:Static res:Strings.SchemaViewAddFieldLengthPlaceholder}"/>
+                        <Button Command="{Binding AddFieldCommand}" Content="{x:Static res:Strings.SchemaViewAddFieldAddButton}"
+                                Background="#3A7E5A" Foreground="White" BorderThickness="0" Padding="10,2"
+                                FontWeight="SemiBold" Cursor="Hand" Margin="8,0,0,0"/>
+                        <Button Command="{Binding DeleteFieldCommand}" Content="{x:Static res:Strings.SchemaViewDeleteFieldButton}"
+                                Background="#8B2E2E" Foreground="White" BorderThickness="0" Padding="10,2"
+                                FontWeight="SemiBold" Cursor="Hand" Margin="8,0,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                        <TextBlock Text="{x:Static res:Strings.SchemaViewCoordinateTargetLabel}" Foreground="#CCCCCC" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <ComboBox Width="220" ItemsSource="{Binding CoordinateSystems}"
+                                  SelectedItem="{Binding SelectedCoordinateSystem}"
+                                  DisplayMemberPath="Name"
+                                  Background="#1E1E1E" Foreground="#1E1E1E" BorderBrush="#3F3F46">
+                            <ComboBox.Resources>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter Property="Background" Value="#1E1E1E"/>
+                                    <Setter Property="Foreground" Value="#E0E0E0"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#3E3E42"/>
+                                            <Setter Property="Foreground" Value="#1E1E1E"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#333337"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Resources>
+                        </ComboBox>
+                        <Button Command="{Binding ConvertCoordinateSystemCommand}" Content="{x:Static res:Strings.SchemaViewCoordinateConvertButton}"
+                                Background="#3A7E5A" Foreground="White" BorderThickness="0" Padding="10,2"
+                                FontWeight="SemiBold" Cursor="Hand" Margin="8,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding IsSchemaOnlySelected, Converter={StaticResource BoolToVis}}" Margin="20">
+                    <TextBlock Text="{Binding SelectedSchema.Name}" FontSize="24" Foreground="#E0E0E0" FontWeight="Light"/>
+                    <TextBlock Text="{x:Static res:Strings.SchemaViewBatchAddFieldLabel}" Foreground="#808080" Margin="0,5,0,0"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                        <TextBlock Text="{x:Static res:Strings.SchemaViewAddFieldLabel}" Foreground="#CCCCCC" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBox Width="160" Text="{Binding NewFieldName, UpdateSourceTrigger=PropertyChanged}"
+                                 Background="#1E1E1E" Foreground="#E0E0E0" BorderBrush="#3F3F46"
+                                 Padding="4,2" VerticalContentAlignment="Center"
+                                 ToolTip="{x:Static res:Strings.SchemaViewAddFieldNamePlaceholder}"/>
+                        <TextBlock Text="{x:Static res:Strings.SchemaViewAddFieldTypeLabel}" Foreground="#CCCCCC" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                        <ComboBox Width="120" ItemsSource="{Binding FieldTypes}" SelectedItem="{Binding NewFieldType}"
+                                  Background="#1E1E1E" Foreground="#1E1E1E" BorderBrush="#3F3F46">
+                            <ComboBox.Resources>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter Property="Background" Value="#1E1E1E"/>
+                                    <Setter Property="Foreground" Value="#E0E0E0"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#3E3E42"/>
+                                            <Setter Property="Foreground" Value="#1E1E1E"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#333337"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Resources>
+                        </ComboBox>
+                        <TextBlock Text="{x:Static res:Strings.SchemaViewAddFieldLengthLabel}" Foreground="#CCCCCC" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                        <TextBox Width="80" Text="{Binding NewFieldLength, UpdateSourceTrigger=PropertyChanged}"
+                                 Background="#1E1E1E" Foreground="#E0E0E0" BorderBrush="#3F3F46"
+                                 Padding="4,2" VerticalContentAlignment="Center"
+                                 ToolTip="{x:Static res:Strings.SchemaViewAddFieldLengthPlaceholder}"/>
+                        <Button Command="{Binding BatchAddFieldCommand}" Content="{x:Static res:Strings.SchemaViewBatchAddFieldButton}"
+                                Background="#3A7E5A" Foreground="White" BorderThickness="0" Padding="10,2"
+                                FontWeight="SemiBold" Cursor="Hand" Margin="8,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <DataGrid Grid.Row="1" ItemsSource="{Binding SelectedTable.Columns}" 
+                          SelectedItem="{Binding SelectedColumn}"
+                          Visibility="{Binding IsTableSelected, Converter={StaticResource BoolToVis}}"
+                          Margin="20,0,20,20" BorderThickness="1">
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn Header="{x:Static res:Strings.SchemaViewHeaderVisible}" Binding="{Binding IsVisible}" Width="40"/>
+                        <DataGridTextColumn Header="{x:Static res:Strings.SchemaViewHeaderColumn}" Binding="{Binding ColumnName}" IsReadOnly="True" Width="150" Foreground="#569CD6"/>
+                        <DataGridTextColumn Header="{x:Static res:Strings.SchemaViewHeaderAlias}" Binding="{Binding Alias}" Width="150"/>
+                        
+                        <DataGridTextColumn Header="{x:Static res:Strings.SchemaViewHeaderType}" Binding="{Binding LocalType}" Width="100"/>
+                        <DataGridTextColumn Header="{x:Static res:Strings.SchemaViewHeaderLength}" Binding="{Binding LocalLength}" Width="60"/>
+                        <DataGridTextColumn Header="{x:Static res:Strings.SchemaViewHeaderDefault}" Binding="{Binding LocalDefault}" Width="100"/>
+                        
+                        <DataGridTextColumn Header="{x:Static res:Strings.SchemaViewHeaderDbType}" Binding="{Binding DbType}" IsReadOnly="True" Width="100" Foreground="#808080"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <TextBlock Grid.Row="1" Text="{x:Static res:Strings.SchemaViewSelectTableHint}" 
+                           Visibility="{Binding IsTableNotSelected, Converter={StaticResource BoolToVis}}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#505050" FontSize="16"/>
+            </Grid>
+        </Grid>
+
+        <!-- Loading Overlay -->
+        <Grid Grid.RowSpan="3" Background="#AA000000" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{x:Static res:Strings.SchemaViewLoadingTitle}" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBlock Text="{x:Static res:Strings.SchemaViewLoadingMessage}" Foreground="#CCC" Margin="0,10,0,0" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

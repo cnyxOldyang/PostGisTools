@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="StatusReady" xml:space="preserve">
+    <value>就绪</value>
+  </data>
+  <data name="StatusNoConnectionString" xml:space="preserve">
+    <value>没有可用的连接字符串。</value>
+  </data>
+  <data name="StatusLoadingSchemas" xml:space="preserve">
+    <value>正在加载架构...</value>
+  </data>
+  <data name="StatusLoadedSchemas" xml:space="preserve">
+    <value>已加载 {0} 个架构。</value>
+  </data>
+  <data name="StatusErrorLoadingSchemas" xml:space="preserve">
+    <value>加载架构出错：{0}</value>
+  </data>
+  <data name="StatusLoadingTables" xml:space="preserve">
+    <value>正在加载 {0} 的表...</value>
+  </data>
+  <data name="StatusLoadedTables" xml:space="preserve">
+    <value>已加载 {0} 中的 {1} 个表。</value>
+  </data>
+  <data name="StatusErrorLoadingTables" xml:space="preserve">
+    <value>加载表出错：{0}</value>
+  </data>
+  <data name="StatusSelectSchemaAndTable" xml:space="preserve">
+    <value>请选择架构和表。</value>
+  </data>
+  <data name="StatusLoadingData" xml:space="preserve">
+    <value>正在加载 {0}.{1} 的数据...</value>
+  </data>
+  <data name="StatusNoSelectableColumns" xml:space="preserve">
+    <value>没有可选择的列（全部为 geometry/geography？）</value>
+  </data>
+  <data name="StatusLoadedRowsWithLimit" xml:space="preserve">
+    <value>已加载 {0} 行（上限 {1}）。</value>
+  </data>
+  <data name="StatusLoadedNoPrimaryKey" xml:space="preserve">
+    <value>已加载数据。未检测到主键：已禁用编辑。</value>
+  </data>
+  <data name="StatusErrorLoadingData" xml:space="preserve">
+    <value>加载数据出错：{0}</value>
+  </data>
+  <data name="StatusNoDataToSave" xml:space="preserve">
+    <value>没有可保存的数据。</value>
+  </data>
+  <data name="StatusCannotSaveNoPrimaryKey" xml:space="preserve">
+    <value>无法保存：未检测到主键。</value>
+  </data>
+  <data name="StatusSavingChanges" xml:space="preserve">
+    <value>正在保存更改...</value>
+  </data>
+  <data name="StatusChangesSaved" xml:space="preserve">
+    <value>更改已成功保存。</value>
+  </data>
+  <data name="StatusErrorSavingChanges" xml:space="preserve">
+    <value>保存更改出错：{0}</value>
+  </data>
+  <data name="StatusLoadDataFirst" xml:space="preserve">
+    <value>请先加载数据。</value>
+  </data>
+  <data name="StatusCannotAddRowNoPrimaryKey" xml:space="preserve">
+    <value>无法添加行：未检测到主键。</value>
+  </data>
+  <data name="StatusNewRowAdded" xml:space="preserve">
+    <value>已添加新行。</value>
+  </data>
+  <data name="StatusNoRowSelected" xml:space="preserve">
+    <value>未选择行。</value>
+  </data>
+  <data name="StatusCannotDeleteNoPrimaryKey" xml:space="preserve">
+    <value>无法删除：未检测到主键。</value>
+  </data>
+  <data name="StatusRowMarkedForDeletion" xml:space="preserve">
+    <value>行已标记为删除。</value>
+  </data>
+  <data name="SchemaTitle" xml:space="preserve">
+    <value>架构与字段</value>
+  </data>
+  <data name="SchemaStatusReady" xml:space="preserve">
+    <value>就绪</value>
+  </data>
+  <data name="SchemaStatusNoConnection" xml:space="preserve">
+    <value>没有活动连接，请先连接。</value>
+  </data>
+  <data name="SchemaStatusLoading" xml:space="preserve">
+    <value>正在加载架构...</value>
+  </data>
+  <data name="SchemaStatusLoaded" xml:space="preserve">
+    <value>架构加载成功。</value>
+  </data>
+  <data name="SchemaStatusLoadError" xml:space="preserve">
+    <value>加载架构出错：{0}</value>
+  </data>
+  <data name="SchemaStatusSavedConfigs" xml:space="preserve">
+    <value>已保存 {0} 个字段配置。</value>
+  </data>
+  <data name="SchemaStatusSchemaNameRequired" xml:space="preserve">
+    <value>请输入架构名。</value>
+  </data>
+  <data name="SchemaStatusCreating" xml:space="preserve">
+    <value>正在创建架构 {0}...</value>
+  </data>
+  <data name="SchemaStatusSchemaExists" xml:space="preserve">
+    <value>架构 {0} 已存在。</value>
+  </data>
+  <data name="SchemaStatusNoTableSelected" xml:space="preserve">
+    <value>请先选择一个表。</value>
+  </data>
+  <data name="SchemaStatusNoTargetCoordinateSystem" xml:space="preserve">
+    <value>请选择目标坐标系。</value>
+  </data>
+  <data name="SchemaStatusNoSpatialColumns" xml:space="preserve">
+    <value>当前表没有可转换的空间字段。</value>
+  </data>
+  <data name="SchemaStatusCoordinateConverting" xml:space="preserve">
+    <value>正在转换 {0}.{1} 到 {2}...</value>
+  </data>
+  <data name="SchemaStatusCoordinateConverted" xml:space="preserve">
+    <value>坐标转换完成：已转换 {0}，跳过 {1}。</value>
+  </data>
+  <data name="SchemaStatusCoordinateConvertError" xml:space="preserve">
+    <value>坐标转换出错：{0}</value>
+  </data>
+  <data name="SchemaCoordinateSystemWgs84" xml:space="preserve">
+    <value>WGS 84 (EPSG:4326)</value>
+  </data>
+  <data name="SchemaCoordinateSystemWebMercator" xml:space="preserve">
+    <value>Web Mercator (EPSG:3857)</value>
+  </data>
+  <data name="SchemaCoordinateSystemCgcs2000" xml:space="preserve">
+    <value>CGCS2000 (EPSG:4490)</value>
+  </data>
+  <data name="SchemaStatusNoSchemaSelected" xml:space="preserve">
+    <value>请先选择一个架构。</value>
+  </data>
+  <data name="SchemaStatusSchemaCreated" xml:space="preserve">
+    <value>架构 {0} 已创建。</value>
+  </data>
+  <data name="SchemaStatusCreateError" xml:space="preserve">
+    <value>创建架构出错：{0}</value>
+  </data>
+  <data name="SchemaStatusNoTableSelected" xml:space="preserve">
+    <value>请先选择一个表以确定目标架构。</value>
+  </data>
+  <data name="SchemaStatusSchemaNoTables" xml:space="preserve">
+    <value>架构 {0} 中未找到表。</value>
+  </data>
+  <data name="SchemaStatusBatchFieldCreating" xml:space="preserve">
+    <value>正在为架构 {0} 批量添加字段 {1}...</value>
+  </data>
+  <data name="SchemaStatusBatchFieldCompleted" xml:space="preserve">
+    <value>批量添加完成：新增 {0}，已存在 {1}。</value>
+  </data>
+  <data name="ConnectionTitle" xml:space="preserve">
+    <value>数据库连接</value>
+  </data>
+  <data name="ConnectionIntroText" xml:space="preserve">
+    <value>输入连接设置并测试连通性（暂不加载架构）。</value>
+  </data>
+  <data name="ConnectionLabelHost" xml:space="preserve">
+    <value>主机</value>
+  </data>
+  <data name="ConnectionLabelPort" xml:space="preserve">
+    <value>端口</value>
+  </data>
+  <data name="ConnectionLabelDatabase" xml:space="preserve">
+    <value>数据库</value>
+  </data>
+  <data name="ConnectionLabelUsername" xml:space="preserve">
+    <value>用户名</value>
+  </data>
+  <data name="ConnectionLabelPassword" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="ConnectionButtonTest" xml:space="preserve">
+    <value>测试连接</value>
+  </data>
+  <data name="ConnectionPasswordNote" xml:space="preserve">
+    <value>密码仅保存在内存中（不会写入磁盘）。</value>
+  </data>
+  <data name="ConnectionStatusTesting" xml:space="preserve">
+    <value>正在测试连接...</value>
+  </data>
+  <data name="ConnectionStatusInvalidPort" xml:space="preserve">
+    <value>失败：端口无效</value>
+  </data>
+  <data name="ConnectionStatusSuccess" xml:space="preserve">
+    <value>成功：{0}</value>
+  </data>
+  <data name="ConnectionStatusFailed" xml:space="preserve">
+    <value>失败：{0}</value>
+  </data>
+  <data name="NavigationConnection" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="NavigationSchema" xml:space="preserve">
+    <value>架构</value>
+  </data>
+  <data name="NavigationData" xml:space="preserve">
+    <value>数据</value>
+  </data>
+  <data name="DataViewLabelSchema" xml:space="preserve">
+    <value>架构：</value>
+  </data>
+  <data name="DataViewLabelTable" xml:space="preserve">
+    <value>表：</value>
+  </data>
+  <data name="DataViewButtonLoad" xml:space="preserve">
+    <value>加载数据</value>
+  </data>
+  <data name="DataViewButtonAdd" xml:space="preserve">
+    <value>添加行</value>
+  </data>
+  <data name="DataViewButtonDelete" xml:space="preserve">
+    <value>删除行</value>
+  </data>
+  <data name="DataViewButtonSave" xml:space="preserve">
+    <value>保存更改</value>
+  </data>
+  <data name="DataViewRefreshSchemas" xml:space="preserve">
+    <value>刷新架构</value>
+  </data>
+  <data name="DataViewProcessing" xml:space="preserve">
+    <value>处理中...</value>
+  </data>
+  <data name="SchemaViewHeader" xml:space="preserve">
+    <value>架构浏览器</value>
+  </data>
+  <data name="SchemaViewCoordinateTargetLabel" xml:space="preserve">
+    <value>目标坐标系</value>
+  </data>
+  <data name="SchemaViewCoordinateConvertButton" xml:space="preserve">
+    <value>坐标转换</value>
+  </data>
+  <data name="SchemaViewBatchAddFieldLabel" xml:space="preserve">
+    <value>批量添加字段</value>
+  </data>
+  <data name="SchemaViewBatchAddFieldButton" xml:space="preserve">
+    <value>批量添加</value>
+  </data>
+  <data name="SchemaViewSaveConfig" xml:space="preserve">
+    <value>保存字段配置</value>
+  </data>
+  <data name="SchemaViewRefresh" xml:space="preserve">
+    <value>刷新架构</value>
+  </data>
+  <data name="SchemaViewSelectedSchemaFormat" xml:space="preserve">
+    <value>架构：{0}</value>
+  </data>
+  <data name="SchemaViewHeaderVisible" xml:space="preserve">
+    <value>可见</value>
+  </data>
+  <data name="SchemaViewHeaderColumn" xml:space="preserve">
+    <value>列名</value>
+  </data>
+  <data name="SchemaViewHeaderAlias" xml:space="preserve">
+    <value>别名（本地）</value>
+  </data>
+  <data name="SchemaViewHeaderType" xml:space="preserve">
+    <value>类型（本地）</value>
+  </data>
+  <data name="SchemaViewHeaderLength" xml:space="preserve">
+    <value>长度</value>
+  </data>
+  <data name="SchemaViewHeaderDefault" xml:space="preserve">
+    <value>默认值</value>
+  </data>
+  <data name="SchemaViewHeaderDbType" xml:space="preserve">
+    <value>数据库类型</value>
+  </data>
+  <data name="SchemaViewSelectTableHint" xml:space="preserve">
+    <value>请选择表以配置字段</value>
+  </data>
+  <data name="SchemaViewLoadingTitle" xml:space="preserve">
+    <value>加载中...</value>
+  </data>
+  <data name="SchemaViewLoadingMessage" xml:space="preserve">
+    <value>正在获取架构，请稍候</value>
+  </data>
+  <data name="SchemaViewAddFieldLabel" xml:space="preserve">
+    <value>新增字段</value>
+  </data>
+  <data name="SchemaViewAddFieldNamePlaceholder" xml:space="preserve">
+    <value>字段名</value>
+  </data>
+  <data name="SchemaViewAddFieldTypePlaceholder" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="SchemaViewAddFieldAddButton" xml:space="preserve">
+    <value>添加字段</value>
+  </data>
+  <data name="SchemaStatusFieldNameRequired" xml:space="preserve">
+    <value>请输入字段名。</value>
+  </data>
+  <data name="SchemaStatusFieldAdded" xml:space="preserve">
+    <value>已添加字段 {0}。</value>
+  </data>
+  <data name="SchemaStatusFieldExists" xml:space="preserve">
+    <value>字段 {0} 已存在。</value>
+  </data>
+  <data name="SchemaViewAddFieldTypeLabel" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="SchemaViewDeleteFieldButton" xml:space="preserve">
+    <value>删除字段</value>
+  </data>
+  <data name="SchemaViewDeleteFieldConfirmTitle" xml:space="preserve">
+    <value>确认删除</value>
+  </data>
+  <data name="SchemaViewDeleteFieldConfirmMessage" xml:space="preserve">
+    <value>确定要删除字段 {0} 吗？</value>
+  </data>
+  <data name="SchemaStatusNoFieldSelected" xml:space="preserve">
+    <value>请先选择要删除的字段。</value>
+  </data>
+  <data name="SchemaStatusFieldDeleted" xml:space="preserve">
+    <value>已删除字段 {0}。</value>
+  </data>
+  <data name="SchemaStatusFieldCreating" xml:space="preserve">
+    <value>正在添加字段 {0}...</value>
+  </data>
+  <data name="SchemaStatusFieldCreateError" xml:space="preserve">
+    <value>添加字段出错：{0}</value>
+  </data>
+  <data name="SchemaStatusFieldDeleting" xml:space="preserve">
+    <value>正在删除字段 {0}...</value>
+  </data>
+  <data name="SchemaStatusFieldDeleteError" xml:space="preserve">
+    <value>删除字段出错：{0}</value>
+  </data>
+  <data name="SchemaStatusFieldInvalidType" xml:space="preserve">
+    <value>字段类型无效。</value>
+  </data>
+  <data name="SchemaViewAddFieldLengthLabel" xml:space="preserve">
+    <value>长度</value>
+  </data>
+  <data name="SchemaViewAddFieldLengthPlaceholder" xml:space="preserve">
+    <value>长度</value>
+  </data>
+  <data name="SchemaStatusFieldInvalidLength" xml:space="preserve">
+    <value>字段长度无效。</value>
+  </data>
+</root>
